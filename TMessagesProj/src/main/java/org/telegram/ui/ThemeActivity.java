@@ -128,6 +128,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
     private int raiseToSpeakRow;
     private int sendByEnterRow;
     private int saveToGalleryRow;
+    private int enableSolar;
     private int distanceRow;
     private int enableAnimationsRow;
     private int settings2Row;
@@ -487,6 +488,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
         raiseToSpeakRow = -1;
         sendByEnterRow = -1;
         saveToGalleryRow = -1;
+        enableSolar = -1;
         distanceRow = -1;
         settings2Row = -1;
         stickersRow = -1;
@@ -550,6 +552,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
             raiseToSpeakRow = rowCount++;
             sendByEnterRow = rowCount++;
             saveToGalleryRow = rowCount++;
+            enableSolar = rowCount++;
             distanceRow = rowCount++;
             settings2Row = rowCount++;
             stickersRow = rowCount++;
@@ -894,6 +897,10 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
                 if (view instanceof TextCheckCell) {
                     ((TextCheckCell) view).setChecked(SharedConfig.saveToGallery);
                 }
+            } else if (position == enableSolar) {
+                SharedConfig.toggleEnableSolar();
+                if (view instanceof TextCheckCell)
+                    ((TextCheckCell) view).setChecked(SharedConfig.enableSolar);
             } else if (position == distanceRow) {
                 if (getParentActivity() == null) {
                     return;
@@ -1986,6 +1993,8 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
                         textCheckCell.setTextAndCheck(LocaleController.getString("SendByEnter", R.string.SendByEnter), preferences.getBoolean("send_by_enter", false), true);
                     } else if (position == saveToGalleryRow) {
                         textCheckCell.setTextAndCheck(LocaleController.getString("SaveToGallerySettings", R.string.SaveToGallerySettings), SharedConfig.saveToGallery, true);
+                    } else if (position == enableSolar) {
+                        textCheckCell.setTextAndCheck(LocaleController.getString("EnableSolar", R.string.EnableSolar), SharedConfig.enableSolar, true);
                     } else if (position == raiseToSpeakRow) {
                         textCheckCell.setTextAndCheck(LocaleController.getString("RaiseToSpeak", R.string.RaiseToSpeak), SharedConfig.raiseToSpeak, true);
                     } else if (position == customTabsRow) {
@@ -2081,7 +2090,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
                 return 6;
             } else if (position == scheduleLocationRow || position == enableAnimationsRow || position == sendByEnterRow ||
                     position == saveToGalleryRow || position == raiseToSpeakRow || position == customTabsRow ||
-                    position == directShareRow || position == emojiRow) {
+                    position == directShareRow || position == emojiRow || position==enableSolar) {
                 return 7;
             } else if (position == textSizeRow) {
                 return 8;

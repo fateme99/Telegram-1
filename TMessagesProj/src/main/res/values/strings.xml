@@ -1387,6 +1387,7 @@
     <string name="YesterdayAtFormatted">yesterday at %1$s</string>
     <string name="Online">online</string>
     <string name="LastSeen">last seen</string>
+    <string name="lastSeenSolar">آخرین بازدید</string>
     <string name="LastSeenDate">last seen</string>
     <string name="LastSeenFormatted">last seen %1$s</string>
     <string name="LastSeenDateFormatted">last seen %1$s</string>
@@ -2706,6 +2707,7 @@
     <string name="ShowInChat">Show in chat</string>
     <string name="StopDownload">Stop downloading</string>
     <string name="SaveToGallery">Save to gallery</string>
+    <string name="EnableSolar">Enable Solar</string>
     <string name="Of">%1$d of %2$d</string>
     <string name="OfCounted">**%1$d** of %2$d</string>
     <string name="Gallery">Gallery</string>

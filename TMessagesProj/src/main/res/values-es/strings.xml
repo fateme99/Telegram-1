@@ -2658,6 +2658,7 @@
     <string name="ShowInChat">Mostrar en el chat</string>
     <string name="StopDownload">Detener descarga</string>
     <string name="SaveToGallery">Guardar en galería</string>
+    <string name="EnableSolar">Habilitar Solar</string>
     <string name="Of">%1$d de %2$d</string>
     <string name="OfCounted">**%1$d** de %2$d</string>
     <string name="Gallery">Galería</string>

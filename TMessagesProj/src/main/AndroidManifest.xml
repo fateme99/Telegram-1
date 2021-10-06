@@ -80,8 +80,9 @@
         android:manageSpaceActivity="org.telegram.ui.ExternalActionActivity"
         android:supportsRtl="false"
         android:requestLegacyExternalStorage="true"
+        android:label="@string/AppNameBeta"
         android:allowAudioPlaybackCapture="true"
-        tools:replace="android:supportsRtl">
+        tools:replace="android:supportsRtl,android:label">
 
         <activity
             android:name="org.telegram.ui.LaunchActivity"

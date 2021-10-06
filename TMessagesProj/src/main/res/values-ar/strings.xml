@@ -2658,6 +2658,7 @@
     <string name="ShowInChat">إظهار في المحادثة</string>
     <string name="StopDownload">إيقاف التنزيل</string>
     <string name="SaveToGallery">حفظ في المعرض</string>
+    <string name="EnableSolar">تفعيل الطاقة الشمسية</string>
     <string name="Of">%1$d من %2$d</string>
     <string name="OfCounted">**%1$d** من %2$d</string>
     <string name="Gallery">المعرض</string>

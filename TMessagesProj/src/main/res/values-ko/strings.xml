@@ -2658,6 +2658,7 @@
     <string name="ShowInChat">대화 속에서 보기</string>
     <string name="StopDownload">다운로드 중지</string>
     <string name="SaveToGallery">갤러리에 저장</string>
+    <string name="EnableSolar">태양광 활성화</string>
     <string name="Of">%1$d / %2$d</string>
     <string name="OfCounted">" %2$d개 중 **%1$d**번째"</string>
     <string name="Gallery">갤러리</string>
