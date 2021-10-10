@@ -170,7 +170,7 @@ public class ThemesHorizontalListCell extends RecyclerListView implements Notifi
             outDrawable = context.getResources().getDrawable(R.drawable.minibubble_out).mutate();
 
             textPaint.setTextSize(AndroidUtilities.dp(13));
-
+            textPaint.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.getGlobalFont()));
             button = new RadioButton(context);
             button.setSize(AndroidUtilities.dp(20));
             addView(button, LayoutHelper.createFrame(22, 22, Gravity.LEFT | Gravity.TOP, 27, 75, 0, 0));

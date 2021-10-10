@@ -60,6 +60,7 @@ public class AdminedChannelCell extends FrameLayout {
 
         statusTextView = new SimpleTextView(context);
         statusTextView.setTextSize(14);
+        statusTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.getGlobalFont()));
         statusTextView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText));
         statusTextView.setLinkTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteLinkText));
         statusTextView.setGravity((LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.TOP);

@@ -1954,7 +1954,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                         String text = LocaleController.getInstance().formatCurrencyString(amount, paymentForm.invoice.currency);
                         TextView valueTextView = new TextView(context);
                         valueTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
-                        valueTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+                        valueTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.getGlobalFont()));
                         valueTextView.setLines(1);
                         valueTextView.setTag(amount);
                         valueTextView.setMaxLines(1);
@@ -1964,7 +1964,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                         valueTextView.setBackground(Theme.createRoundRectDrawable(AndroidUtilities.dp(15), color & 0x1fffffff));
                         valueTextView.setSingleLine(true);
                         valueTextView.setGravity(Gravity.CENTER);
-                        tipLayout.addView(valueTextView, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.MATCH_PARENT, Gravity.CENTER_VERTICAL | Gravity.LEFT, 0, 0, a != N -1 ? 9 : 0, 0));
+                        tipLayout.addView(valueTextView, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.MATCH_PARENT, Gravity.CENTER_VERTICAL | Gravity.LEFT, 0, 0, a != N - 1 ? 9 : 0, 0));
                         valueTextView.setOnClickListener(v -> {
                             long amoumt = (Long) valueTextView.getTag();
                             if (tipAmount != null && amoumt == tipAmount) {
@@ -1994,7 +1994,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
 
             detailSettingsCell[0] = new TextDetailSettingsCell(context);
             detailSettingsCell[0].setBackgroundDrawable(Theme.getSelectorDrawable(true));
-            detailSettingsCell[0].setTextAndValueAndIcon(cardName != null && cardName.length() > 1 ? cardName.substring(0, 1).toUpperCase() + cardName.substring(1) : cardName, LocaleController.getString("PaymentCheckoutMethod", R.string.PaymentCheckoutMethod), R.drawable.payment_card,  true);
+            detailSettingsCell[0].setTextAndValueAndIcon(cardName != null && cardName.length() > 1 ? cardName.substring(0, 1).toUpperCase() + cardName.substring(1) : cardName, LocaleController.getString("PaymentCheckoutMethod", R.string.PaymentCheckoutMethod), R.drawable.payment_card, true);
             linearLayout2.addView(detailSettingsCell[0]);
             if (currentStep == 4) {
                 detailSettingsCell[0].setOnClickListener(v -> {
@@ -2168,7 +2168,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                 payTextView.setText(LocaleController.formatString("PaymentCheckoutPay", R.string.PaymentCheckoutPay, totalPrice[0]));
                 payTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
                 payTextView.setGravity(Gravity.CENTER);
-                payTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+                payTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.getGlobalFont()));
                 bottomLayout.addView(payTextView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
 
                 progressViewButton = new ContextProgressView(context, 0);

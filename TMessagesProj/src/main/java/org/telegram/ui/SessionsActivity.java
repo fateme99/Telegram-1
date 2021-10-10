@@ -155,7 +155,7 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
         textView1.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText2));
         textView1.setGravity(Gravity.CENTER);
         textView1.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 17);
-        textView1.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+        textView1.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.getGlobalFont()));
         if (currentType == 0) {
             textView1.setText(LocaleController.getString("NoOtherSessions", R.string.NoOtherSessions));
         } else {
@@ -167,6 +167,7 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
         textView2.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText2));
         textView2.setGravity(Gravity.CENTER);
         textView2.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 17);
+        textView2.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.getGlobalFont()));
         textView2.setPadding(AndroidUtilities.dp(20), 0, AndroidUtilities.dp(20), 0);
         if (currentType == 0) {
             textView2.setText(LocaleController.getString("NoOtherSessionsInfo", R.string.NoOtherSessionsInfo));

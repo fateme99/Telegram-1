@@ -85,7 +85,7 @@ public class UserCell extends FrameLayout {
             addButton.setGravity(Gravity.CENTER);
             addButton.setTextColor(Theme.getColor(Theme.key_featuredStickers_buttonText));
             addButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
-            addButton.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+            addButton.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.getGlobalFont()));
             addButton.setBackgroundDrawable(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(4), Theme.getColor(Theme.key_featuredStickers_addButton), Theme.getColor(Theme.key_featuredStickers_addButtonPressed)));
             addButton.setText(LocaleController.getString("Add", R.string.Add));
             addButton.setPadding(AndroidUtilities.dp(17), 0, AndroidUtilities.dp(17), 0);
@@ -106,7 +106,7 @@ public class UserCell extends FrameLayout {
 
         nameTextView = new SimpleTextView(context);
         nameTextView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
-        nameTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+        nameTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.getGlobalFont()));
         nameTextView.setTextSize(16);
         nameTextView.setGravity((LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.TOP);
         addView(nameTextView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 20, (LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.TOP, LocaleController.isRTL ? 28 + (checkbox == 2 ? 18 : 0) + additionalPadding : (64 + padding), 10, LocaleController.isRTL ? (64 + padding) : 28 + (checkbox == 2 ? 18 : 0) + additionalPadding, 0));
@@ -135,6 +135,7 @@ public class UserCell extends FrameLayout {
         if (admin) {
             adminTextView = new TextView(context);
             adminTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
+            adminTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.getGlobalFont()));
             adminTextView.setTextColor(Theme.getColor(Theme.key_profile_creatorIcon));
             addView(adminTextView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, (LocaleController.isRTL ? Gravity.LEFT : Gravity.RIGHT) | Gravity.TOP, LocaleController.isRTL ? 23 : 0, 10, LocaleController.isRTL ? 0 : 23, 0));
         }

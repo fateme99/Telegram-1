@@ -524,7 +524,7 @@ public class PhotoAlbumPickerActivity extends BaseFragment implements Notificati
         });
 
         textPaint.setTextSize(AndroidUtilities.dp(12));
-        textPaint.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+        textPaint.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.getGlobalFont()));
 
         selectedCountView = new View(context) {
             @Override

@@ -3564,7 +3564,7 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
 
         updateTextView = new SimpleTextView(this);
         updateTextView.setTextSize(15);
-        updateTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+        updateTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.getGlobalFont()));
         updateTextView.setText(LocaleController.getString("AppUpdate", R.string.AppUpdate));
         updateTextView.setTextColor(0xffffffff);
         updateTextView.setGravity(Gravity.LEFT);
@@ -3572,7 +3572,7 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
 
         updateSizeTextView = new TextView(this);
         updateSizeTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
-        updateSizeTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+        updateSizeTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.getGlobalFont()));
         updateSizeTextView.setGravity(Gravity.RIGHT);
         updateSizeTextView.setTextColor(0xffffffff);
         updateLayout.addView(updateSizeTextView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER_VERTICAL | Gravity.RIGHT, 0, 0, 17, 0));

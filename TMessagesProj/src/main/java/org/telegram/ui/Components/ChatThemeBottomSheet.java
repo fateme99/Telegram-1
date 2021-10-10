@@ -112,7 +112,7 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
         titleView.setText(LocaleController.getString("SelectTheme", R.string.SelectTheme));
         titleView.setTextColor(getThemedColor(Theme.key_dialogTextBlack));
         titleView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20);
-        titleView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+        titleView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.getGlobalFont()));
         titleView.setPadding(AndroidUtilities.dp(21), AndroidUtilities.dp(6), AndroidUtilities.dp(21), AndroidUtilities.dp(8));
         rootLayout.addView(titleView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.TOP | Gravity.START, 0, 0, 62, 0));
 
@@ -218,7 +218,7 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
         resetTextView.setText(themeDelegate.getCurrentTheme() == null ? LocaleController.getString("DoNoSetTheme", R.string.DoNoSetTheme) : LocaleController.getString("ChatResetTheme", R.string.ChatResetTheme));
         resetTextView.setTextColor(getThemedColor(Theme.key_featuredStickers_buttonText));
         resetTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
-        resetTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+        resetTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.getGlobalFont()));
         resetTextView.setVisibility(View.INVISIBLE);
         rootLayout.addView(resetTextView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 48, Gravity.START, 16, 162, 16, 16));
 
@@ -230,7 +230,7 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
         applyTextView.setText(LocaleController.getString("ChatApplyTheme", R.string.ChatApplyTheme));
         applyTextView.setTextColor(getThemedColor(Theme.key_featuredStickers_buttonText));
         applyTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
-        applyTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+        applyTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.getGlobalFont()));
         applyTextView.setVisibility(View.INVISIBLE);
         rootLayout.addView(applyTextView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 48, Gravity.START, 16, 162, 16, 16));
     }
@@ -964,7 +964,7 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
                 noThemeTextPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG + TextPaint.SUBPIXEL_TEXT_FLAG);
                 noThemeTextPaint.setColor(getThemedColor(Theme.key_chat_emojiPanelTrendingDescription));
                 noThemeTextPaint.setTextSize(AndroidUtilities.dp(14));
-                noThemeTextPaint.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+                noThemeTextPaint.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.getGlobalFont()));
                 textLayout = StaticLayoutEx.createStaticLayout2(
                         LocaleController.getString("ChatNoTheme", R.string.ChatNoTheme),
                         noThemeTextPaint,

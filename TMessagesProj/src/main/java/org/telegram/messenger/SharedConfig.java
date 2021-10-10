@@ -134,6 +134,7 @@ public class SharedConfig {
     private static int chatSwipeAction;
 
     public static int distanceSystemType;
+    public static int fontType;
 
     static {
         loadConfig();
@@ -321,7 +322,7 @@ public class SharedConfig {
 
             preferences = ApplicationLoader.applicationContext.getSharedPreferences("mainconfig", Activity.MODE_PRIVATE);
             saveToGallery = preferences.getBoolean("save_gallery", false);
-            enableSolar=preferences.getBoolean("enable_solar",false);
+            enableSolar = preferences.getBoolean("enable_solar", false);
             autoplayGifs = preferences.getBoolean("autoplay_gif", true);
             autoplayVideo = preferences.getBoolean("autoplay_video", true);
             mapPreviewType = preferences.getInt("mapPreviewType", 2);
@@ -353,6 +354,7 @@ public class SharedConfig {
             useThreeLinesLayout = preferences.getBoolean("useThreeLinesLayout", false);
             archiveHidden = preferences.getBoolean("archiveHidden", false);
             distanceSystemType = preferences.getInt("distanceSystemType", 0);
+            fontType=preferences.getInt("fontType",0);
             devicePerformanceClass = preferences.getInt("devicePerformanceClass", -1);
             loopStickers = preferences.getBoolean("loopStickers", true);
             keepMedia = preferences.getInt("keep_media", 2);
@@ -775,11 +777,11 @@ public class SharedConfig {
         checkSaveToGalleryFiles();
     }
 
-    public static void toggleEnableSolar(){
-        enableSolar=!enableSolar;
-        SharedPreferences preferences=MessagesController.getGlobalMainSettings();
-        SharedPreferences.Editor editor=preferences.edit();
-        editor.putBoolean("enable_solar",enableSolar);
+    public static void toggleEnableSolar() {
+        enableSolar = !enableSolar;
+        SharedPreferences preferences = MessagesController.getGlobalMainSettings();
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("enable_solar", enableSolar);
         editor.commit();
         // TODO: 10/3/2021 i think setting solar
     }
@@ -954,6 +956,14 @@ public class SharedConfig {
         editor.putInt("distanceSystemType", distanceSystemType);
         editor.commit();
         LocaleController.resetImperialSystemType();
+    }
+
+    public static void setFontType(int type) {
+        fontType = type;
+        SharedPreferences preferences = MessagesController.getGlobalMainSettings();
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putInt("fontType", fontType);
+        editor.commit();
     }
 
     public static void loadProxyList() {

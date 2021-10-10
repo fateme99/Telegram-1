@@ -81,6 +81,7 @@ public class FiltersSetupActivity extends BaseFragment implements NotificationCe
 
             textView = new SimpleTextView(context);
             textView.setTextSize(16);
+            textView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.getGlobalFont()));
             textView.setGravity(LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT);
             textView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlueText2));
             textView.setTag(Theme.key_windowBackgroundWhiteBlueText2);
@@ -139,6 +140,7 @@ public class FiltersSetupActivity extends BaseFragment implements NotificationCe
             textView = new TextView(context);
             textView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
             textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
+            textView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.getGlobalFont()));
             textView.setLines(1);
             textView.setMaxLines(1);
             textView.setSingleLine(true);
@@ -149,6 +151,7 @@ public class FiltersSetupActivity extends BaseFragment implements NotificationCe
             valueTextView = new TextView(context);
             valueTextView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText2));
             valueTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 13);
+            valueTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.getGlobalFont()));
             valueTextView.setLines(1);
             valueTextView.setMaxLines(1);
             valueTextView.setSingleLine(true);

@@ -497,7 +497,7 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
                 overrideBackgroundPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
                 overrideBackgroundPaint.setColor(color);
                 overrideTextPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
-                overrideTextPaint.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+                overrideTextPaint.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.getGlobalFont()));
                 overrideTextPaint.setTextSize(AndroidUtilities.dp(Math.max(16, SharedConfig.fontSize) - 2));
                 overrideTextPaint.setColor(getThemedColor(overrideText));
             }

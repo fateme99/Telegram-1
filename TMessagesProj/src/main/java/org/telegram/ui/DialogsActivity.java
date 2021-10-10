@@ -3405,7 +3405,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
 
             updateTextView = new TextView(context);
             updateTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
-            updateTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+            updateTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.getGlobalFont()));
             updateTextView.setText(LocaleController.getString("AppUpdateNow", R.string.AppUpdateNow).toUpperCase());
             updateTextView.setTextColor(0xffffffff);
             updateTextView.setPadding(AndroidUtilities.dp(30), 0, 0, 0);
@@ -3705,7 +3705,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
 
         selectedDialogsCountTextView = new NumberTextView(actionMode.getContext());
         selectedDialogsCountTextView.setTextSize(18);
-        selectedDialogsCountTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+        selectedDialogsCountTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.getGlobalFont()));
         selectedDialogsCountTextView.setTextColor(Theme.getColor(Theme.key_actionBarActionModeDefaultIcon));
         actionMode.addView(selectedDialogsCountTextView, LayoutHelper.createLinear(0, LayoutHelper.MATCH_PARENT, 1.0f, 72, 0, 0, 0));
         selectedDialogsCountTextView.setOnTouchListener((v, event) -> true);

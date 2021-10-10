@@ -122,7 +122,7 @@ public class CounterView extends View {
             this.parent = parent;
             this.resourcesProvider = resourcesProvider;
             circlePaint.setColor(Color.BLACK);
-            textPaint.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+            textPaint.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.getGlobalFont()));
             textPaint.setTextSize(AndroidUtilities.dp(13));
         }
 

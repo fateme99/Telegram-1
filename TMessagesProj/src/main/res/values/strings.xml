@@ -2163,6 +2163,15 @@
     <string name="DistanceUnitsAutomatic">Automatic</string>
     <string name="DistanceUnitsKilometers">Kilometers</string>
     <string name="DistanceUnitsMiles">Miles</string>
+    <string name="Fonts">Font Family</string>
+    <string name="FontsTitle">Font Family</string>
+    <string name="AlexBrush">Alex Brush</string>
+    <string name="GreatVibes">Great Vibes</string>
+    <string name="MerriweatherBold">Merriweather Bold</string>
+    <string name="RobotoMedium">Roboto Medium</string>
+    <string name="RobotoMediumItalic">RobotoMedium Italic</string>
+    <string name="RobotoItalic">Roboto Italic</string>
+    <string name="RobotoMono">Roboto Mono</string>
     <string name="AuthAnotherClient">Scan QR Code</string>
     <string name="AuthAnotherClientScan">Scan QR Code</string>
     <string name="AuthAnotherClientTokenError">Token invalid or already expired.</string>

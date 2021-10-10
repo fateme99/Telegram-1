@@ -59,6 +59,7 @@ public class CheckBoxCell extends FrameLayout {
         textView.setLinkTextColor(getThemedColor(type == 1 || type == 5 ? Theme.key_dialogTextLink : Theme.key_windowBackgroundWhiteLinkText));
         textView.setTag(getThemedColor(type == 1 || type == 5 ? Theme.key_dialogTextBlack : Theme.key_windowBackgroundWhiteBlackText));
         textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
+        textView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.getGlobalFont()));
         textView.setLines(1);
         textView.setMaxLines(1);
         textView.setSingleLine(true);
@@ -81,6 +82,7 @@ public class CheckBoxCell extends FrameLayout {
         valueTextView.setTextColor(getThemedColor(type == 1 || type == 5 ? Theme.key_dialogTextBlue : Theme.key_windowBackgroundWhiteValueText));
         valueTextView.setTag(type == 1 || type == 5 ? Theme.key_dialogTextBlue : Theme.key_windowBackgroundWhiteValueText);
         valueTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
+        valueTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.getGlobalFont()));
         valueTextView.setLines(1);
         valueTextView.setMaxLines(1);
         valueTextView.setSingleLine(true);

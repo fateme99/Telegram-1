@@ -296,7 +296,7 @@ public class ScrollSlidingTabStrip extends HorizontalScrollView {
             tab.addView(imageView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
 
             textView = new TextView(getContext());
-            textView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+            textView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.getGlobalFont()));
             textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 12);
             textView.setTextColor(getThemedColor(Theme.key_chat_emojiPanelBadgeText));
             textView.setGravity(Gravity.CENTER);

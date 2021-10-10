@@ -70,7 +70,7 @@ public class AvatarDrawable extends Drawable {
         super();
         this.resourcesProvider = resourcesProvider;
         namePaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
-        namePaint.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+        namePaint.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.getGlobalFont()));
         namePaint.setTextSize(AndroidUtilities.dp(18));
     }
 

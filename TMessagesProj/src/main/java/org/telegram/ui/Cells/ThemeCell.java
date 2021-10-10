@@ -59,6 +59,7 @@ public class ThemeCell extends FrameLayout {
 
         textView = new TextView(context);
         textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
+        textView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.getGlobalFont()));
         textView.setLines(1);
         textView.setMaxLines(1);
         textView.setSingleLine(true);

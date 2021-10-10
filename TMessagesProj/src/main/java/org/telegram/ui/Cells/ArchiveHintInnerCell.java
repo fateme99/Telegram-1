@@ -32,13 +32,14 @@ public class ArchiveHintInnerCell extends FrameLayout {
         headerTextView = new TextView(context);
         headerTextView.setTextColor(Theme.getColor(Theme.key_chats_nameMessage_threeLines));
         headerTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20);
-        headerTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+        headerTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.getGlobalFont()));
         headerTextView.setGravity(Gravity.CENTER);
         addView(headerTextView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.TOP | Gravity.LEFT, 52, 75, 52, 0));
 
         messageTextView = new TextView(context);
         messageTextView.setTextColor(Theme.getColor(Theme.key_chats_message));
         messageTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
+        messageTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.getGlobalFont()));
         messageTextView.setGravity(Gravity.CENTER);
         addView(messageTextView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.TOP | Gravity.LEFT, 52, 110, 52, 0));
 
@@ -53,6 +54,7 @@ public class ArchiveHintInnerCell extends FrameLayout {
 
                 headerTextView.setText(LocaleController.getString("ArchiveHintHeader1", R.string.ArchiveHintHeader1));
                 messageTextView.setText(LocaleController.getString("ArchiveHintText1", R.string.ArchiveHintText1));
+                messageTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.getGlobalFont()));
                 imageView.setImageResource(R.drawable.chats_archive_box);
                 break;
             }
@@ -61,6 +63,7 @@ public class ArchiveHintInnerCell extends FrameLayout {
 
                 headerTextView.setText(LocaleController.getString("ArchiveHintHeader2", R.string.ArchiveHintHeader2));
                 messageTextView.setText(LocaleController.getString("ArchiveHintText2", R.string.ArchiveHintText2));
+                messageTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.getGlobalFont()));
                 imageView.setImageResource(R.drawable.chats_archive_muted);
                 break;
             case 2:
@@ -68,6 +71,7 @@ public class ArchiveHintInnerCell extends FrameLayout {
 
                 headerTextView.setText(LocaleController.getString("ArchiveHintHeader3", R.string.ArchiveHintHeader3));
                 messageTextView.setText(LocaleController.getString("ArchiveHintText3", R.string.ArchiveHintText3));
+                messageTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.getGlobalFont()));
                 imageView.setImageResource(R.drawable.chats_archive_pin);
                 break;
         }

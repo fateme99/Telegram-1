@@ -130,6 +130,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
     private int saveToGalleryRow;
     private int enableSolar;
     private int distanceRow;
+    private int fontRow;
     private int enableAnimationsRow;
     private int settings2Row;
     private int stickersRow;
@@ -235,7 +236,6 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
 
             textPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
             textPaint.setTextSize(AndroidUtilities.dp(16));
-
             sizeBar = new SeekBarView(context);
             sizeBar.setReportChanges(true);
             sizeBar.setDelegate(new SeekBarView.SeekBarViewDelegate() {
@@ -490,6 +490,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
         saveToGalleryRow = -1;
         enableSolar = -1;
         distanceRow = -1;
+        fontRow = -1;
         settings2Row = -1;
         stickersRow = -1;
         stickersSection2Row = -1;
@@ -554,6 +555,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
             saveToGalleryRow = rowCount++;
             enableSolar = rowCount++;
             distanceRow = rowCount++;
+            fontRow = rowCount++;
             settings2Row = rowCount++;
             stickersRow = rowCount++;
             stickersSection2Row = rowCount++;
@@ -920,6 +922,34 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
                 });
                 builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
                 showDialog(builder.create());
+            } else if (position == fontRow) {
+                if (getParentActivity() == null) {
+                    return;
+                }
+                AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
+                builder.setTitle(LocaleController.getString("FontsTitle", R.string.FontsTitle));
+                builder.setItems(new CharSequence[]{
+                        LocaleController.getString("AlexBrush", R.string.AlexBrush),
+                        LocaleController.getString("GreatVibes", R.string.GreatVibes),
+                        LocaleController.getString("MerriweatherBold", R.string.MerriweatherBold),
+                        LocaleController.getString("RobotoItalic", R.string.RobotoItalic),
+                        LocaleController.getString("RobotoMedium", R.string.RobotoMedium),
+                        LocaleController.getString("RobotoMediumItalic", R.string.RobotoMediumItalic),
+                        LocaleController.getString("RobotoMono", R.string.RobotoMono),
+
+                }, (dialog, which) -> {
+                    SharedConfig.setFontType(which);
+                    parentLayout.rebuildAllFragmentViews(false, false);
+                    RecyclerView.ViewHolder holder = listView.findViewHolderForAdapterPosition(fontRow);
+                    if (holder != null) {
+                        listAdapter.onBindViewHolder(holder, fontRow);
+                    }
+                    Theme.chat_msgTextPaint.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.getGlobalFont()));
+                    ThemeActivity.this.finishFragment();
+                });
+                builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
+                showDialog(builder.create());
+
             } else if (position == customTabsRow) {
                 SharedConfig.toggleCustomTabs();
                 if (view instanceof TextCheckCell) {
@@ -1067,6 +1097,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
         super.onResume();
         if (listAdapter != null) {
             updateRows(true);
+            listAdapter.notifyDataSetChanged();
         }
     }
 
@@ -1920,6 +1951,32 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
                             value = LocaleController.getString("DistanceUnitsMiles", R.string.DistanceUnitsMiles);
                         }
                         cell.setTextAndValue(LocaleController.getString("DistanceUnits", R.string.DistanceUnits), value, false);
+                    } else if (position == fontRow) {
+                        String Fontvalue = "";
+                        switch (SharedConfig.fontType) {
+                            case 0:
+                                Fontvalue = LocaleController.getString("AlexBrush", R.string.AlexBrush);
+                                break;
+                            case 1:
+                                Fontvalue = LocaleController.getString("GreatVibes", R.string.GreatVibes);
+                                break;
+                            case 2:
+                                Fontvalue = LocaleController.getString("MerriweatherBold", R.string.MerriweatherBold);
+                                break;
+                            case 3:
+                                Fontvalue = LocaleController.getString("RobotoItalic", R.string.RobotoItalic);
+                                break;
+                            case 4:
+                                Fontvalue = LocaleController.getString("RobotoMedium", R.string.RobotoMedium);
+                                break;
+                            case 5:
+                                Fontvalue = LocaleController.getString("RobotoMediumItalic", R.string.RobotoMediumItalic);
+                                break;
+                            case 6:
+                                Fontvalue = LocaleController.getString("RobotoMono", R.string.RobotoMono);
+                                break;
+                        }
+                        cell.setTextAndValue(LocaleController.getString("FontsTitle", R.string.FontsTitle), Fontvalue, false);
                     }
                     break;
                 }
@@ -2070,7 +2127,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
 
         @Override
         public int getItemViewType(int position) {
-            if (position == scheduleFromRow || position == distanceRow ||
+            if (position == scheduleFromRow || position == distanceRow || position == fontRow ||
                     position == scheduleToRow || position == scheduleUpdateLocationRow ||
                     position == contactsReimportRow || position == contactsSortRow || position == stickersRow) {
                 return 1;
@@ -2090,7 +2147,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
                 return 6;
             } else if (position == scheduleLocationRow || position == enableAnimationsRow || position == sendByEnterRow ||
                     position == saveToGalleryRow || position == raiseToSpeakRow || position == customTabsRow ||
-                    position == directShareRow || position == emojiRow || position==enableSolar) {
+                    position == directShareRow || position == emojiRow || position == enableSolar) {
                 return 7;
             } else if (position == textSizeRow) {
                 return 8;
