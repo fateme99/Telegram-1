@@ -48,6 +48,13 @@ public class LocaleController {
     static final int QUANTITY_TWO = 0x0004;
     static final int QUANTITY_FEW = 0x0008;
     static final int QUANTITY_MANY = 0x0010;
+    public static final int FONT_ID_0 = 0;
+    public static final int FONT_ID_1 = 1;
+    public static final int FONT_ID_2 = 2;
+    public static final int FONT_ID_3 = 3;
+    public static final int FONT_ID_4 = 4;
+    public static final int FONT_ID_5 = 5;
+    public static final int FONT_ID_6 = 6;
 
     public static boolean isRTL = false;
     public static int nameDisplayOrder = 1;
@@ -74,6 +81,7 @@ public class LocaleController {
     private Locale systemDefaultLocale;
     private PluralRules currentPluralRules;
     private LocaleInfo currentLocaleInfo;
+    private FontInfo currentFontInfo;
     private HashMap<String, String> localeValues = new HashMap<>();
     private String languageOverride;
     private boolean changingConfiguration = false;
@@ -93,6 +101,34 @@ public class LocaleController {
                     LocaleController.getInstance().recreateFormatters();
                 }
             });
+        }
+    }
+
+    public static class FontInfo {
+        public int id;
+        public int imageId;
+        public String name;
+        public String pathToFile;
+        public final String testText = "This is a test text.";
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public void setPathToFile(String pathToFile) {
+            this.pathToFile = pathToFile;
+        }
+
+        public void setId(int id) {
+            this.id = id;
+        }
+
+        public void setImageId(int imageId) {
+            this.imageId = imageId;
+        }
+
+        public boolean isLocalFont(){
+            return !TextUtils.isEmpty(pathToFile) ;
         }
     }
 
@@ -192,6 +228,7 @@ public class LocaleController {
             return !TextUtils.isEmpty(pathToFile) && !isRemote() && !isUnofficial();
         }
 
+
         public boolean isBuiltIn() {
             return builtIn;
         }
@@ -206,8 +243,10 @@ public class LocaleController {
     }
 
     private boolean loadingRemoteLanguages;
+    private boolean loadingRemoteFonts;
 
     public ArrayList<LocaleInfo> languages = new ArrayList<>();
+    public ArrayList<FontInfo> fonts = new ArrayList<>();
     public ArrayList<LocaleInfo> unofficialLanguages = new ArrayList<>();
     public ArrayList<LocaleInfo> remoteLanguages = new ArrayList<>();
     public HashMap<String, LocaleInfo> remoteLanguagesDict = new HashMap<>();
@@ -255,6 +294,55 @@ public class LocaleController {
         addRules(new String[]{"ak", "am", "bh", "fil", "tl", "guw", "hi", "ln", "mg", "nso", "ti", "wa"}, new PluralRules_Zero());
         addRules(new String[]{"az", "bm", "fa", "ig", "hu", "ja", "kde", "kea", "ko", "my", "ses", "sg", "to",
                 "tr", "vi", "wo", "yo", "zh", "bo", "dz", "id", "jv", "jw", "ka", "km", "kn", "ms", "th", "in"}, new PluralRules_None());
+
+        FontInfo fontInfo = new FontInfo();
+        fontInfo.setName("Alex Brush Regular");
+        fontInfo.setPathToFile("fonts/alex_brush_regular.ttf");
+        fontInfo.setId(FONT_ID_0);
+        fontInfo.setImageId(R.drawable.ic_font0);
+        fonts.add(fontInfo);
+
+        fontInfo = new FontInfo();
+        fontInfo.setName("Great Vibes Regular");
+        fontInfo.setPathToFile("fonts/great_vibes_regular.otf");
+        fontInfo.setId(FONT_ID_1);
+        fontInfo.setImageId(R.drawable.ic_font1);
+        fonts.add(fontInfo);
+
+        fontInfo = new FontInfo();
+        fontInfo.setName("Merriweather Bold");
+        fontInfo.setPathToFile("fonts/mw_bold.ttf");
+        fontInfo.setId(FONT_ID_2);
+        fontInfo.setImageId(R.drawable.ic_font2);
+        fonts.add(fontInfo);
+
+        fontInfo = new FontInfo();
+        fontInfo.setName("Roboto Italic");
+        fontInfo.setPathToFile("fonts/ritalic.ttf");
+        fontInfo.setId(FONT_ID_3);
+        fontInfo.setImageId(R.drawable.ic_font3);
+        fonts.add(fontInfo);
+
+        fontInfo = new FontInfo();
+        fontInfo.setName("Roboto Medium");
+        fontInfo.setPathToFile("fonts/rmedium.ttf");
+        fontInfo.setId(FONT_ID_4);
+        fontInfo.setImageId(R.drawable.ic_font4);
+        fonts.add(fontInfo);
+
+        fontInfo = new FontInfo();
+        fontInfo.setName("Roboto Medium Italic");
+        fontInfo.setPathToFile("fonts/rmediumitalic.ttf");
+        fontInfo.setId(FONT_ID_5);
+        fontInfo.setImageId(R.drawable.ic_font5);
+        fonts.add(fontInfo);
+
+        fontInfo = new FontInfo();
+        fontInfo.setName("Roboto Mono");
+        fontInfo.setPathToFile("fonts/rmono.ttf");
+        fontInfo.setId(FONT_ID_6);
+        fontInfo.setImageId(R.drawable.ic_font6);
+        fonts.add(fontInfo);
 
         LocaleInfo localeInfo = new LocaleInfo();
         localeInfo.name = "English";
@@ -924,6 +1012,9 @@ public class LocaleController {
 
     public LocaleInfo getCurrentLocaleInfo() {
         return currentLocaleInfo;
+    }
+    public FontInfo getCurrentFontInfo(){
+        return currentFontInfo;
     }
 
     public Locale getCurrentLocale() {
@@ -2052,6 +2143,78 @@ public class LocaleController {
         } catch (Exception ignore) {
 
         }
+    }
+    public void loadRemoteFonts(final int currentAccount){
+        if (loadingRemoteFonts) {
+            return;
+        }
+        loadingRemoteFonts = true;
+        TLRPC.TL_langpack_getLanguages req = new TLRPC.TL_langpack_getLanguages();
+        ConnectionsManager.getInstance(currentAccount).sendRequest(req, (response, error) -> {
+            if (response != null) {
+                AndroidUtilities.runOnUIThread(() -> {
+                    loadingRemoteFonts = false;
+                    TLRPC.Vector res = (TLRPC.Vector) response;
+                    for (int a = 0, size = remoteLanguages.size(); a < size; a++) {
+                        remoteLanguages.get(a).serverIndex = Integer.MAX_VALUE;
+                    }
+                    for (int a = 0, size = res.objects.size(); a < size; a++) {
+                        TLRPC.TL_langPackLanguage language = (TLRPC.TL_langPackLanguage) res.objects.get(a);
+                        if (BuildVars.LOGS_ENABLED) {
+                            FileLog.d("loaded lang " + language.name);
+                        }
+                        LocaleInfo localeInfo = new LocaleInfo();
+                        localeInfo.nameEnglish = language.name;
+                        localeInfo.name = language.native_name;
+                        localeInfo.shortName = language.lang_code.replace('-', '_').toLowerCase();
+                        if (language.base_lang_code != null) {
+                            localeInfo.baseLangCode = language.base_lang_code.replace('-', '_').toLowerCase();
+                        } else {
+                            localeInfo.baseLangCode = "";
+                        }
+                        localeInfo.pluralLangCode = language.plural_code.replace('-', '_').toLowerCase();
+                        localeInfo.isRtl = language.rtl;
+                        localeInfo.pathToFile = "remote";
+                        localeInfo.serverIndex = a;
+
+                        LocaleInfo existing = getLanguageFromDict(localeInfo.getKey());
+                        if (existing == null) {
+                            languages.add(localeInfo);
+                            languagesDict.put(localeInfo.getKey(), localeInfo);
+                        } else {
+                            existing.nameEnglish = localeInfo.nameEnglish;
+                            existing.name = localeInfo.name;
+                            existing.baseLangCode = localeInfo.baseLangCode;
+                            existing.pluralLangCode = localeInfo.pluralLangCode;
+                            existing.pathToFile = localeInfo.pathToFile;
+                            existing.serverIndex = localeInfo.serverIndex;
+                            localeInfo = existing;
+                        }
+                        if (!remoteLanguagesDict.containsKey(localeInfo.getKey())) {
+                            remoteLanguages.add(localeInfo);
+                            remoteLanguagesDict.put(localeInfo.getKey(), localeInfo);
+                        }
+                    }
+                    for (int a = 0; a < remoteLanguages.size(); a++) {
+                        LocaleInfo info = remoteLanguages.get(a);
+                        if (info.serverIndex != Integer.MAX_VALUE || info == currentLocaleInfo) {
+                            continue;
+                        }
+                        if (BuildVars.LOGS_ENABLED) {
+                            FileLog.d("remove lang " + info.getKey());
+                        }
+                        remoteLanguages.remove(a);
+                        remoteLanguagesDict.remove(info.getKey());
+                        languages.remove(info);
+                        languagesDict.remove(info.getKey());
+                        a--;
+                    }
+                    saveOtherLanguages();
+                    NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.suggestedLangpack);
+                    applyLanguage(currentLocaleInfo, true, false, currentAccount);
+                });
+            }
+        }, ConnectionsManager.RequestFlagWithoutLogin);
     }
 
     public void loadRemoteLanguages(final int currentAccount) {

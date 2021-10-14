@@ -49,6 +49,7 @@ import android.widget.TextView;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.BuildConfig;
+import org.telegram.messenger.FontSelectActivity;
 import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.FileLog;
@@ -926,29 +927,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
                 if (getParentActivity() == null) {
                     return;
                 }
-                AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-                builder.setTitle(LocaleController.getString("FontsTitle", R.string.FontsTitle));
-                builder.setItems(new CharSequence[]{
-                        LocaleController.getString("AlexBrush", R.string.AlexBrush),
-                        LocaleController.getString("GreatVibes", R.string.GreatVibes),
-                        LocaleController.getString("MerriweatherBold", R.string.MerriweatherBold),
-                        LocaleController.getString("RobotoItalic", R.string.RobotoItalic),
-                        LocaleController.getString("RobotoMedium", R.string.RobotoMedium),
-                        LocaleController.getString("RobotoMediumItalic", R.string.RobotoMediumItalic),
-                        LocaleController.getString("RobotoMono", R.string.RobotoMono),
-
-                }, (dialog, which) -> {
-                    SharedConfig.setFontType(which);
-                    parentLayout.rebuildAllFragmentViews(false, false);
-                    RecyclerView.ViewHolder holder = listView.findViewHolderForAdapterPosition(fontRow);
-                    if (holder != null) {
-                        listAdapter.onBindViewHolder(holder, fontRow);
-                    }
-                    Theme.chat_msgTextPaint.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.getGlobalFont()));
-                    ThemeActivity.this.finishFragment();
-                });
-                builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
-                showDialog(builder.create());
+                presentFragment(new FontSelectActivity());
 
             } else if (position == customTabsRow) {
                 SharedConfig.toggleCustomTabs();

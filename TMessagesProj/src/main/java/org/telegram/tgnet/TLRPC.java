@@ -49773,6 +49773,7 @@ public class TLRPC {
 		}
 	}
 
+
     public static class TL_langpack_getLanguage extends TLObject {
         public static int constructor = 0x6a596502;
 
@@ -49787,6 +49788,17 @@ public class TLRPC {
             stream.writeInt32(constructor);
             stream.writeString(lang_pack);
             stream.writeString(lang_code);
+        }
+    }
+    public static class TL_fontpack_getFont extends TLObject{
+        public static int constructor = 0x6a596502;
+
+        public String font_pack;
+        public String font_code;
+
+        @Override
+        public TLObject deserializeResponse(AbstractSerializedData stream, int constructor, boolean exception) {
+            return super.deserializeResponse(stream, constructor, exception);
         }
     }
 

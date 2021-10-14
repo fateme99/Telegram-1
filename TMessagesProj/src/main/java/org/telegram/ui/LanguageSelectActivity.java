@@ -34,6 +34,7 @@ import org.telegram.ui.Cells.ShadowSectionCell;
 import org.telegram.ui.Components.EmptyTextProgressView;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RecyclerListView;
+import org.webrtc.Logging;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -328,15 +329,18 @@ public class LanguageSelectActivity extends BaseFragment implements Notification
         public ListAdapter(Context context, boolean isSearch) {
             mContext = context;
             search = isSearch;
+            Logging.d("TAG","constructor adapter");
         }
 
         @Override
         public boolean isEnabled(RecyclerView.ViewHolder holder) {
+            Logging.d("TAG","is enabled adapter");
             return holder.getItemViewType() == 0;
         }
 
         @Override
         public int getItemCount() {
+            Logging.d("TAG","get item adapter");
             if (search) {
                 if (searchResult == null) {
                     return 0;
@@ -356,6 +360,7 @@ public class LanguageSelectActivity extends BaseFragment implements Notification
 
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            Logging.d("TAG","on create view holder  adapter");
             View view;
             switch (viewType) {
                 case 0: {
@@ -374,6 +379,7 @@ public class LanguageSelectActivity extends BaseFragment implements Notification
 
         @Override
         public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+            Logging.d("TAG","on bind view holder adapter");
             switch (holder.getItemViewType()) {
                 case 0: {
                     LanguageCell textSettingsCell = (LanguageCell) holder.itemView;
@@ -414,6 +420,7 @@ public class LanguageSelectActivity extends BaseFragment implements Notification
 
         @Override
         public int getItemViewType(int i) {
+            Logging.d("TAG","get item type adapter");
             if (search) {
                 return 0;
             }

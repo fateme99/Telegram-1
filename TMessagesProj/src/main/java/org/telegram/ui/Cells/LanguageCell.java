@@ -81,6 +81,12 @@ public class LanguageCell extends FrameLayout {
         needDivider = divider;
     }
 
+    public void setFont(LocaleController.FontInfo font){
+        textView.setText(font.name);
+        textView2.setText(font.testText);
+        checkImage.setImageResource(font.imageId);
+    }
+
     public void setValue(String name, String nameEnglish) {
         textView.setText(name);
         textView2.setText(nameEnglish);

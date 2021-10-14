@@ -1141,7 +1141,7 @@ public class AndroidUtilities {
                 assetPath = "fonts/rmedium.ttf";
                 break;
             case 5:
-                assetPath = "rmediumitalic";
+                assetPath = "rmediumitalic.ttf";
                 break;
             case 6:
                 assetPath = "fonts/rmono.ttf";
@@ -1346,30 +1346,6 @@ public class AndroidUtilities {
             if (!typefaceCache.containsKey(assetPath)) {
                 try {
                     Typeface t;
-                    int type = SharedConfig.fontType;
-                    switch (type) {
-                        case 0:
-                            assetPath = "fonts/alex_brush_regular.ttf";
-                            break;
-                        case 1:
-                            assetPath = "fonts/great_vibes_regular.otf";
-                            break;
-                        case 2:
-                            assetPath = "fonts/mw_bold.ttf";
-                            break;
-                        case 3:
-                            assetPath = "fonts/ritalic.ttf";
-                            break;
-                        case 4:
-                            assetPath = "fonts/rmedium.ttf";
-                            break;
-                        case 5:
-                            assetPath = "rmediumitalic.ttf";
-                            break;
-                        case 6:
-                            assetPath = "fonts/rmono.ttf";
-                            break;
-                    }
                     if (Build.VERSION.SDK_INT >= 26) {
                         Typeface.Builder builder = new Typeface.Builder(ApplicationLoader.applicationContext.getAssets(), assetPath);
                         if (assetPath.contains("medium")) {
