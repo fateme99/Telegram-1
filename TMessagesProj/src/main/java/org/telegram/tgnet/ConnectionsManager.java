@@ -10,7 +10,6 @@ import android.os.SystemClock;
 import android.text.TextUtils;
 import android.util.Base64;
 
-import com.google.android.gms.common.api.Response;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 
 import org.json.JSONArray;
@@ -140,8 +139,9 @@ public class ConnectionsManager extends BaseController {
     private static HashMap<String, ResolvedDomain> dnsCache = new HashMap<>();
 
     private static int lastClassGuid = 1;
-    
+
     private static volatile ConnectionsManager[] Instance = new ConnectionsManager[UserConfig.MAX_ACCOUNT_COUNT];
+
     public static ConnectionsManager getInstance(int num) {
         ConnectionsManager localInstance = Instance[num];
         if (localInstance == null) {
@@ -280,9 +280,9 @@ public class ConnectionsManager extends BaseController {
                 NativeByteBuffer buffer = new NativeByteBuffer(object.getObjectSize());
                 object.serializeToStream(buffer);
                 object.freeResources();
-                TLRPC.RequestResponse requestResponse=new TLRPC.RequestResponse();
-                requestResponse.className=object.getClass().getSimpleName();
-                requestResponse.timeResponse=System.currentTimeMillis();
+                TLRPC.RequestResponse requestResponse = new TLRPC.RequestResponse();
+                requestResponse.className = object.getClass().getSimpleName();
+                requestResponse.timeResponse = System.currentTimeMillis();
                 getMessagesStorage().putResponse(requestResponse);
 
                 native_sendRequest(currentAccount, buffer.address, (response, errorCode, errorText, networkType, timestamp) -> {
@@ -701,34 +701,63 @@ public class ConnectionsManager extends BaseController {
     }
 
     public static native void native_switchBackend(int currentAccount, boolean restart);
+
     public static native int native_isTestBackend(int currentAccount);
+
     public static native void native_pauseNetwork(int currentAccount);
+
     public static native void native_setIpStrategy(int currentAccount, byte value);
+
     public static native void native_updateDcSettings(int currentAccount);
+
     public static native void native_setNetworkAvailable(int currentAccount, boolean value, int networkType, boolean slow);
+
     public static native void native_resumeNetwork(int currentAccount, boolean partial);
+
     public static native long native_getCurrentTimeMillis(int currentAccount);
+
     public static native int native_getCurrentTime(int currentAccount);
+
     public static native int native_getCurrentDatacenterId(int currentAccount);
+
     public static native int native_getTimeDifference(int currentAccount);
+
     public static native void native_sendRequest(int currentAccount, long object, RequestDelegateInternal onComplete, QuickAckDelegate onQuickAck, WriteToSocketDelegate onWriteToSocket, int flags, int datacenterId, int connetionType, boolean immediate, int requestToken);
+
     public static native void native_cancelRequest(int currentAccount, int token, boolean notifyServer);
+
     public static native void native_cleanUp(int currentAccount, boolean resetKeys);
+
     public static native void native_cancelRequestsForGuid(int currentAccount, int guid);
+
     public static native void native_bindRequestToGuid(int currentAccount, int requestToken, int guid);
+
     public static native void native_applyDatacenterAddress(int currentAccount, int datacenterId, String ipAddress, int port);
+
     public static native int native_getConnectionState(int currentAccount);
+
     public static native void native_setUserId(int currentAccount, long id);
+
     public static native void native_init(int currentAccount, int version, int layer, int apiId, String deviceModel, String systemVersion, String appVersion, String langCode, String systemLangCode, String configPath, String logPath, String regId, String cFingerprint, String installer, String packageId, int timezoneOffset, long userId, boolean enablePushConnection, boolean hasNetwork, int networkType);
+
     public static native void native_setProxySettings(int currentAccount, String address, int port, String username, String password, String secret);
+
     public static native void native_setLangCode(int currentAccount, String langCode);
+
     public static native void native_setRegId(int currentAccount, String regId);
+
     public static native void native_setSystemLangCode(int currentAccount, String langCode);
+
     public static native void native_seSystemLangCode(int currentAccount, String langCode);
+
     public static native void native_setJava(boolean useJavaByteBuffers);
+
     public static native void native_setPushConnectionEnabled(int currentAccount, boolean value);
+
     public static native void native_applyDnsConfig(int currentAccount, long address, String phone, int date);
+
     public static native long native_checkProxy(int currentAccount, String address, int port, String username, String password, String secret, RequestTimeDelegate requestTimeDelegate);
+
     public static native void native_onHostNameResolved(String host, long address, String ip);
 
     public static int generateClassGuid() {

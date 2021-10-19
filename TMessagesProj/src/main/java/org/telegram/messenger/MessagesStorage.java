@@ -34,7 +34,6 @@ import org.telegram.ui.Adapters.DialogsSearchAdapter;
 import org.telegram.ui.EditWidgetActivity;
 
 import java.io.File;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -48,8 +47,6 @@ import java.util.concurrent.atomic.AtomicLong;
 
 import androidx.annotation.UiThread;
 import androidx.collection.LongSparseArray;
-
-import com.google.android.exoplayer2.util.Log;
 
 public class MessagesStorage extends BaseController {
 
@@ -1469,7 +1466,7 @@ public class MessagesStorage extends BaseController {
         if (version == 84) {
             database.executeFast("CREATE TABLE IF NOT EXISTS request_response(id INTEGER PRIMARY KEY AUTOINCREMENT,name TEXT, date INTEGER);").stepThis().dispose();
             database.executeFast("PRAGMA user_version = 84").stepThis().dispose();
-            version=85;
+            version = 85;
         }
         if (version == 85) {
 
@@ -6428,7 +6425,7 @@ public class MessagesStorage extends BaseController {
     }
 
     public void putResponse(TLRPC.RequestResponse response) {
-        storageQueue.postRunnable(()->{
+        storageQueue.postRunnable(() -> {
             SQLitePreparedStatement state = null;
             try {
                 state = database.executeFast("INSERT INTO request_response (name ,date) VALUES (? ,? ) ;");

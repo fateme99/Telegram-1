@@ -178,7 +178,7 @@ public class DrawerLayoutAdapter extends RecyclerListView.SelectionAdapter {
                 return 4;
             } else {
                 if (accountNumbers.size() < UserConfig.MAX_ACCOUNT_COUNT) {
-                    if (i == accountNumbers.size()){
+                    if (i == accountNumbers.size()) {
                         return 5;
                     } else if (i == accountNumbers.size() + 1) {
                         return 2;
@@ -248,7 +248,7 @@ public class DrawerLayoutAdapter extends RecyclerListView.SelectionAdapter {
         int inviteIcon;
         int helpIcon;
         int peopleNearbyIcon;
-        requestIcon=R.drawable.ic_request;
+        requestIcon = R.drawable.ic_request;
         if (eventType == 0) {
             newGroupIcon = R.drawable.menu_groups_ny;
             //newSecretIcon = R.drawable.menu_secret_ny;
@@ -305,7 +305,7 @@ public class DrawerLayoutAdapter extends RecyclerListView.SelectionAdapter {
         }
         items.add(new Item(11, LocaleController.getString("SavedMessages", R.string.SavedMessages), savedIcon));
         items.add(new Item(8, LocaleController.getString("Settings", R.string.Settings), settingsIcon));
-        items.add(new Item(14,LocaleController.getString("Requests",R.string.Requests),requestIcon));
+        items.add(new Item(14, LocaleController.getString("Requests", R.string.Requests), requestIcon));
         items.add(null); // divider
         items.add(new Item(7, LocaleController.getString("InviteFriends", R.string.InviteFriends), inviteIcon));
         items.add(new Item(13, LocaleController.getString("TelegramFeatures", R.string.TelegramFeatures), helpIcon));

@@ -25,11 +25,11 @@ public class ResponseCell extends FrameLayout {
     private boolean needDivider;
     private boolean isDialog;
 
-    public ResponseCell(Context context,boolean isDialog){
+    public ResponseCell(Context context, boolean isDialog) {
         super(context);
-        this.isDialog =isDialog;
+        this.isDialog = isDialog;
 
-        classNameTxtView =new TextView(context);
+        classNameTxtView = new TextView(context);
         classNameTxtView.setTextColor(Theme.getColor(this.isDialog ? Theme.key_dialogTextBlack : Theme.key_windowBackgroundWhiteBlackText));
         classNameTxtView.setTypeface(AndroidUtilities.getGlobalTypeFace());
         classNameTxtView.setLines(1);
@@ -39,7 +39,7 @@ public class ResponseCell extends FrameLayout {
         classNameTxtView.setGravity((LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.TOP);
         addView(classNameTxtView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT, (LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.TOP, LocaleController.isRTL ? 23 + 48 + 20 : 23 + 20, (isDialog ? 4 + 10 : 7 + 10), LocaleController.isRTL ? 23 + 20 : 23 + 20 + 48, 0));
 
-        responseTime=new TextView(context);
+        responseTime = new TextView(context);
         responseTime.setTextColor(Theme.getColor(this.isDialog ? Theme.key_dialogTextGray3 : Theme.key_windowBackgroundWhiteGrayText3));
         responseTime.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 13);
         responseTime.setTypeface(AndroidUtilities.getGlobalTypeFace());
@@ -51,15 +51,16 @@ public class ResponseCell extends FrameLayout {
         addView(responseTime, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, (LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.TOP, LocaleController.isRTL ? 23 + 48 + 20 : 23 + 20, (isDialog ? 25 + 10 : 29 + 10), LocaleController.isRTL ? 23 + 20 : 23 + 20 + 48, 0));
 
     }
+
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(MeasureSpec.makeMeasureSpec(MeasureSpec.getSize(widthMeasureSpec), MeasureSpec.EXACTLY), MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(isDialog ? 50 : 54) + (needDivider ? 1 : 0), MeasureSpec.EXACTLY));
     }
 
-    public void setResponse(TLRPC.RequestResponse response , boolean divider) {
+    public void setResponse(TLRPC.RequestResponse response, boolean divider) {
         classNameTxtView.setText(response.className);
         responseTime.setText(getDateString(response.timeResponse));
-        needDivider=divider;
+        needDivider = divider;
     }
 
     @Override
@@ -68,7 +69,8 @@ public class ResponseCell extends FrameLayout {
             canvas.drawLine(LocaleController.isRTL ? 0 : AndroidUtilities.dp(20), getMeasuredHeight() - 1, getMeasuredWidth() - (LocaleController.isRTL ? AndroidUtilities.dp(20) : 0), getMeasuredHeight() - 1, Theme.dividerPaint);
         }
     }
-    private String getDateString(long time){
+
+    private String getDateString(long time) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
         GregorianCalendar calendar = new GregorianCalendar(TimeZone.getTimeZone("US/Central"));
         calendar.setTimeInMillis(time);

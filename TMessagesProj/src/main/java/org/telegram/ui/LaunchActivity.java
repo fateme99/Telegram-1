@@ -621,7 +621,7 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                 } else if (id == 13) {
                     Browser.openUrl(LaunchActivity.this, LocaleController.getString("TelegramFeaturesUrl", R.string.TelegramFeaturesUrl));
                     drawerLayoutContainer.closeDrawer(false);
-                }else if(id==14){
+                } else if (id == 14) {
                     presentFragment(new ResponseActivity());
                     drawerLayoutContainer.closeDrawer(false);
                 }
@@ -2114,7 +2114,7 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                 } else if (intent.getAction().startsWith("com.tmessages.openchat")) {
 
                     long chatId = intent.getLongExtra("chatId", intent.getIntExtra("chatId", 0));
-                    long userId = intent.getLongExtra("userId",  intent.getIntExtra("userId", 0));
+                    long userId = intent.getLongExtra("userId", intent.getIntExtra("userId", 0));
                     int encId = intent.getIntExtra("encId", 0);
                     int widgetId = intent.getIntExtra("appWidgetId", 0);
                     if (widgetId != 0) {
@@ -2486,7 +2486,7 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
             } catch (Throwable ignore) {
 
             }
-            if (videoTimestamp == - 1) {
+            if (videoTimestamp == -1) {
                 DateFormat dateFormat = new SimpleDateFormat("mm:ss");
                 Date reference = null;
                 try {
@@ -2596,7 +2596,7 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
     }
 
     private void runImportRequest(final Uri importUri,
-                                ArrayList<Uri> documents) {
+                                  ArrayList<Uri> documents) {
         final int intentAccount = UserConfig.selectedAccount;
         final AlertDialog progressDialog = new AlertDialog(this, 3);
         final int[] requestId = new int[]{0};
@@ -3752,7 +3752,7 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
     public void showBulletin(Function<BulletinFactory, Bulletin> createBulletin) {
         BaseFragment topFragment = null;
         if (!layerFragmentsStack.isEmpty()) {
-             topFragment = layerFragmentsStack.get(layerFragmentsStack.size() - 1);
+            topFragment = layerFragmentsStack.get(layerFragmentsStack.size() - 1);
         } else if (!rightFragmentsStack.isEmpty()) {
             topFragment = rightFragmentsStack.get(rightFragmentsStack.size() - 1);
         } else if (!mainFragmentsStack.isEmpty()) {
