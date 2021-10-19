@@ -621,6 +621,9 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                 } else if (id == 13) {
                     Browser.openUrl(LaunchActivity.this, LocaleController.getString("TelegramFeaturesUrl", R.string.TelegramFeaturesUrl));
                     drawerLayoutContainer.closeDrawer(false);
+                }else if(id==14){
+                    presentFragment(new ResponseActivity());
+                    drawerLayoutContainer.closeDrawer(false);
                 }
             }
         });

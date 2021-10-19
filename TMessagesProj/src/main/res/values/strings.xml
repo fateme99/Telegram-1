@@ -121,6 +121,7 @@
     <string name="NewConversationShortcut">New conversation</string>
     <string name="AutoNightModeOff">Auto-Night Mode is off</string>
     <string name="Settings">Settings</string>
+    <string name="Requests">Requests</string>
     <string name="Contacts">Contacts</string>
     <string name="NewGroup">New Group</string>
     <string name="Yesterday">yesterday</string>
@@ -2165,6 +2166,7 @@
     <string name="DistanceUnitsMiles">Miles</string>
     <string name="Fonts">Font Family</string>
     <string name="FontsTitle">Font Family</string>
+    <string name="RequestResponse">Request Response</string>
     <string name="AlexBrush">Alex Brush</string>
     <string name="GreatVibes">Great Vibes</string>
     <string name="MerriweatherBold">Merriweather Bold</string>

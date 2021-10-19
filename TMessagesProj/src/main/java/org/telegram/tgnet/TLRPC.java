@@ -54331,4 +54331,18 @@ public class TLRPC {
         public static int constructor = 0x1cb5c415;
         public ArrayList<Object> objects = new ArrayList<>();
     }
+
+    public static class RequestResponse extends TLObject{
+        public String className;
+        public Long timeResponse;
+
+        public void readParams(AbstractSerializedData stream ,boolean exception){
+            className=stream.readString(exception);
+            timeResponse=stream.readInt64(exception);
+        }
+        public void serializeToStream(AbstractSerializedData stream){
+            stream.writeString(className);
+            stream.writeInt64(timeResponse);
+        }
+    }
 }

@@ -20,7 +20,6 @@ import org.telegram.messenger.R;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.LayoutHelper;
-import org.webrtc.Logging;
 
 public class FontCell extends FrameLayout {
     private TextView textView;
@@ -60,7 +59,7 @@ public class FontCell extends FrameLayout {
         textViewDesc.setSingleLine(true);
         textViewDesc.setEllipsize(TextUtils.TruncateAt.END);
         textViewDesc.setGravity((LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.TOP);
-        addView(textViewDesc, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT, (LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.TOP, LocaleController.isRTL ? 23 + 48 + 20 : 23 + 20, (isDialog ? 25 + 10 : 29 + 10), LocaleController.isRTL ? 23 + 20 : 23 + 20 + 48, 0));
+        addView(textViewDesc, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, (LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.TOP, LocaleController.isRTL ? 23 + 48 + 20 : 23 + 20, (isDialog ? 25 + 10 : 29 + 10), LocaleController.isRTL ? 23 + 20 : 23 + 20 + 48, 0));
 
         checkImage = new ImageView(context);
         checkImage.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_featuredStickers_addedIcon), PorterDuff.Mode.MULTIPLY));
@@ -79,16 +78,17 @@ public class FontCell extends FrameLayout {
         super.onMeasure(MeasureSpec.makeMeasureSpec(MeasureSpec.getSize(widthMeasureSpec), MeasureSpec.EXACTLY), MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(isDialog ? 50 : 54) + (needDivider ? 1 : 0), MeasureSpec.EXACTLY));
     }
 
-    public void setFont(LocaleController.FontInfo font) {
+    public void setFont(LocaleController.FontInfo font ,boolean divider) {
         textView.setText(font.name);
         textViewDesc.setText(font.testText);
-        Logging.d("TAG", "font location in setFont " + font.pathToFile);
         textViewDesc.setTypeface(AndroidUtilities.getTypeface(font.pathToFile));
         fontImageView.setImageResource(font.imageId);
         checkImage.setImageResource(R.drawable.sticker_added);
         if (SharedConfig.fontType==font.id)
             checkImage.setVisibility(VISIBLE);
+
         fontImageView.setVisibility(VISIBLE);
+        needDivider=divider;
     }
 
     public void setValue(LocaleController.FontInfo font) {

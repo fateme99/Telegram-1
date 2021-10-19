@@ -1340,6 +1340,10 @@ public class AndroidUtilities {
         }
         return result;
     }
+    public static Typeface getGlobalTypeFace(){
+        String assetPath=getGlobalFont();
+        return getTypeface(assetPath);
+    }
 
     public static Typeface getTypeface(String assetPath) {
         synchronized (typefaceCache) {

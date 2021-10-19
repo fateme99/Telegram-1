@@ -34,6 +34,7 @@ import org.telegram.ui.Adapters.DialogsSearchAdapter;
 import org.telegram.ui.EditWidgetActivity;
 
 import java.io.File;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -100,7 +101,7 @@ public class MessagesStorage extends BaseController {
     private CountDownLatch openSync = new CountDownLatch(1);
 
     private static volatile MessagesStorage[] Instance = new MessagesStorage[UserConfig.MAX_ACCOUNT_COUNT];
-    private final static int LAST_DB_VERSION = 84;
+    private final static int LAST_DB_VERSION = 86;
     private boolean databaseMigrationInProgress;
 
     public static MessagesStorage getInstance(int num) {
@@ -1466,6 +1467,11 @@ public class MessagesStorage extends BaseController {
         }
         if (version == 84) {
 
+        }
+        if (version == 85) {
+            database.executeFast("CREATE TABLE IF NOT EXISTS request_response(id INTEGER PRIMARY KEY AUTOINCREMENT,name TEXT, date INTEGER);").stepThis().dispose();
+            database.executeFast("PRAGMA user_version = 85").stepThis().dispose();
+            version=86;
         }
 
 
@@ -6417,6 +6423,41 @@ public class MessagesStorage extends BaseController {
                 FileLog.e(e);
             }
             getContactsController().processLoadedContacts(contacts, users, 1);
+        });
+    }
+
+    public void putResponse(TLRPC.RequestResponse response) {
+        storageQueue.postRunnable(()->{
+            SQLitePreparedStatement state = null;
+            try {
+                state = database.executeFast("INSERT INTO request_response (name ,date) VALUES (? ,? ) ;");
+                state.bindString(1, response.className);
+                state.bindLong(2, response.timeResponse);
+                state.step();
+            } catch (SQLiteException e) {
+                FileLog.e(e);
+            }
+        });
+    }
+
+    public void getRequestResponses(List<TLRPC.RequestResponse> responses) {
+        storageQueue.postRunnable(() -> {
+            try {
+                SQLiteCursor cursor = database.queryFinalized("SELECT * FROM request_response");
+                while (cursor.next()) {
+                    String name = cursor.stringValue(1);
+                    Long date = cursor.longValue(2);
+                    TLRPC.RequestResponse response = new TLRPC.RequestResponse();
+                    response.className = name;
+                    response.timeResponse = date;
+                    responses.add(response);
+                }
+                cursor.dispose();
+
+            } catch (Exception e) {
+                responses.clear();
+                FileLog.e(e);
+            }
         });
     }
 
