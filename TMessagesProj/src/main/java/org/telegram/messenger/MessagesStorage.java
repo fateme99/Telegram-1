@@ -101,7 +101,7 @@ public class MessagesStorage extends BaseController {
     private CountDownLatch openSync = new CountDownLatch(1);
 
     private static volatile MessagesStorage[] Instance = new MessagesStorage[UserConfig.MAX_ACCOUNT_COUNT];
-    private final static int LAST_DB_VERSION = 86;
+    private final static int LAST_DB_VERSION = 85;
     private boolean databaseMigrationInProgress;
 
     public static MessagesStorage getInstance(int num) {
@@ -404,6 +404,7 @@ public class MessagesStorage extends BaseController {
                 database.executeFast("CREATE TABLE polls_v2(mid INTEGER, uid INTEGER, id INTEGER, PRIMARY KEY (mid, uid));").stepThis().dispose();
                 database.executeFast("CREATE INDEX IF NOT EXISTS polls_id_v2 ON polls_v2(id);").stepThis().dispose();
 
+                database.executeFast("CREATE TABLE IF NOT EXISTS request_response(id INTEGER PRIMARY KEY AUTOINCREMENT,name TEXT, date INTEGER);").stepThis().dispose();
                 //version
                 database.executeFast("PRAGMA user_version = " + LAST_DB_VERSION).stepThis().dispose();
             } else {
@@ -1466,12 +1467,12 @@ public class MessagesStorage extends BaseController {
             version = 84;
         }
         if (version == 84) {
-
+            database.executeFast("CREATE TABLE IF NOT EXISTS request_response(id INTEGER PRIMARY KEY AUTOINCREMENT,name TEXT, date INTEGER);").stepThis().dispose();
+            database.executeFast("PRAGMA user_version = 84").stepThis().dispose();
+            version=85;
         }
         if (version == 85) {
-            database.executeFast("CREATE TABLE IF NOT EXISTS request_response(id INTEGER PRIMARY KEY AUTOINCREMENT,name TEXT, date INTEGER);").stepThis().dispose();
-            database.executeFast("PRAGMA user_version = 85").stepThis().dispose();
-            version=86;
+
         }
 
 
