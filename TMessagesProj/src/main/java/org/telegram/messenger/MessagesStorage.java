@@ -401,7 +401,7 @@ public class MessagesStorage extends BaseController {
                 database.executeFast("CREATE TABLE polls_v2(mid INTEGER, uid INTEGER, id INTEGER, PRIMARY KEY (mid, uid));").stepThis().dispose();
                 database.executeFast("CREATE INDEX IF NOT EXISTS polls_id_v2 ON polls_v2(id);").stepThis().dispose();
 
-                database.executeFast("CREATE TABLE IF NOT EXISTS request_response(id INTEGER PRIMARY KEY AUTOINCREMENT,name TEXT, date INTEGER);").stepThis().dispose();
+                database.executeFast("CREATE TABLE IF NOT EXISTS requestsList(id INTEGER PRIMARY KEY AUTOINCREMENT,stream BLOB);").stepThis().dispose();
                 //version
                 database.executeFast("PRAGMA user_version = " + LAST_DB_VERSION).stepThis().dispose();
             } else {
@@ -1464,7 +1464,7 @@ public class MessagesStorage extends BaseController {
             version = 84;
         }
         if (version == 84) {
-            database.executeFast("CREATE TABLE IF NOT EXISTS request_response(id INTEGER PRIMARY KEY AUTOINCREMENT,name TEXT, date INTEGER);").stepThis().dispose();
+            database.executeFast("CREATE TABLE IF NOT EXISTS requestsList(id INTEGER PRIMARY KEY AUTOINCREMENT,stream BLOB);").stepThis().dispose();
             database.executeFast("PRAGMA user_version = 84").stepThis().dispose();
             version = 85;
         }
@@ -6424,36 +6424,16 @@ public class MessagesStorage extends BaseController {
         });
     }
 
-    public void putResponse(TLRPC.RequestResponse response) {
+    public void insertRequestInfo(TLRPC.RequestInfo response) {
         storageQueue.postRunnable(() -> {
             SQLitePreparedStatement state = null;
             try {
-                state = database.executeFast("INSERT INTO request_response (name ,date) VALUES (? ,? ) ;");
-                state.bindString(1, response.className);
-                state.bindLong(2, response.timeResponse);
+                NativeByteBuffer requestInfoBuffer = new NativeByteBuffer(response.getObjectSize());
+                response.serializeToStream(requestInfoBuffer);
+                state = database.executeFast("INSERT INTO requestsList (stream) VALUES (?) ;");
+                state.bindByteBuffer(1, requestInfoBuffer);
                 state.step();
-            } catch (SQLiteException e) {
-                FileLog.e(e);
-            }
-        });
-    }
-
-    public void getRequestResponses(List<TLRPC.RequestResponse> responses) {
-        storageQueue.postRunnable(() -> {
-            try {
-                SQLiteCursor cursor = database.queryFinalized("SELECT * FROM request_response");
-                while (cursor.next()) {
-                    String name = cursor.stringValue(1);
-                    Long date = cursor.longValue(2);
-                    TLRPC.RequestResponse response = new TLRPC.RequestResponse();
-                    response.className = name;
-                    response.timeResponse = date;
-                    responses.add(response);
-                }
-                cursor.dispose();
-
             } catch (Exception e) {
-                responses.clear();
                 FileLog.e(e);
             }
         });

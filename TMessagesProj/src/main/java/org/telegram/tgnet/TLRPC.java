@@ -54333,7 +54333,7 @@ public class TLRPC {
         public ArrayList<Object> objects = new ArrayList<>();
     }
 
-    public static class RequestResponse extends TLObject {
+    public static class RequestInfo extends TLObject {
         public String className;
         public Long timeResponse;
 

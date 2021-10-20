@@ -25,6 +25,9 @@ import org.telegram.ui.Components.RecyclerListView;
 import java.util.ArrayList;
 
 public class FontSelectActivity extends BaseFragment {
+    public static final int customViewType = 0;
+    public static final int shadowViewType = 1;
+    public static final int backMenuItemId = -1;
     private ListAdapter listAdapter;
     private RecyclerListView listView;
     private EmptyTextProgressView emptyView;
@@ -52,7 +55,7 @@ public class FontSelectActivity extends BaseFragment {
         actionBar.setActionBarMenuOnItemClick(new ActionBar.ActionBarMenuOnItemClick() {
             @Override
             public void onItemClick(int id) {
-                if (id == -1) {
+                if (id == backMenuItemId) {
                     finishFragment();
                 }
             }
@@ -99,7 +102,6 @@ public class FontSelectActivity extends BaseFragment {
     }
 
     private class ListAdapter extends RecyclerListView.SelectionAdapter {
-
         private Context mContext;
 
         public ListAdapter(Context context) {
@@ -121,12 +123,12 @@ public class FontSelectActivity extends BaseFragment {
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View view;
             switch (viewType) {
-                case 0: {
+                case customViewType: {
                     view = new FontCell(mContext, true);
                     view.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
                     break;
                 }
-                case 1:
+                case shadowViewType:
                 default: {
                     view = new ShadowSectionCell(mContext);
                     break;
@@ -138,17 +140,17 @@ public class FontSelectActivity extends BaseFragment {
         @Override
         public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
             switch (holder.getItemViewType()) {
-                case 0: {
+                case customViewType: {
                     FontCell textSettingsCell = (FontCell) holder.itemView;
                     LocaleController.FontInfo fontInfo = fonts.get(position);
-                    if (position==fonts.size()-1)
-                        textSettingsCell.setFont(fontInfo,false);
+                    if (position == fonts.size() - 1)
+                        textSettingsCell.setFont(fontInfo, false);
                     else
-                        textSettingsCell.setFont(fontInfo,true);
+                        textSettingsCell.setFont(fontInfo, true);
 
                     break;
                 }
-                case 1: {
+                case shadowViewType: {
                     ShadowSectionCell sectionCell = (ShadowSectionCell) holder.itemView;
                     if (!fonts.isEmpty() && position == fonts.size()) {
                         sectionCell.setBackgroundDrawable(Theme.getThemedDrawable(mContext, R.drawable.greydivider, Theme.key_windowBackgroundGrayShadow));

@@ -280,10 +280,10 @@ public class ConnectionsManager extends BaseController {
                 NativeByteBuffer buffer = new NativeByteBuffer(object.getObjectSize());
                 object.serializeToStream(buffer);
                 object.freeResources();
-                TLRPC.RequestResponse requestResponse = new TLRPC.RequestResponse();
+                TLRPC.RequestInfo requestResponse = new TLRPC.RequestInfo();
                 requestResponse.className = object.getClass().getSimpleName();
                 requestResponse.timeResponse = System.currentTimeMillis();
-                getMessagesStorage().putResponse(requestResponse);
+                getMessagesStorage().insertRequestInfo(requestResponse);
 
                 native_sendRequest(currentAccount, buffer.address, (response, errorCode, errorText, networkType, timestamp) -> {
                     try {

@@ -9,27 +9,38 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.telegram.SQLite.SQLiteCursor;
+import org.telegram.SQLite.SQLiteDatabase;
+import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
+import org.telegram.messenger.MessagesStorage;
 import org.telegram.messenger.R;
+import org.telegram.tgnet.NativeByteBuffer;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.ActionBar.ThemeDescription;
-import org.telegram.ui.Cells.ResponseCell;
+import org.telegram.ui.Cells.RequestInfoCell;
 import org.telegram.ui.Cells.ShadowSectionCell;
 import org.telegram.ui.Components.EmptyTextProgressView;
 import org.telegram.ui.Components.LayoutHelper;
+import org.telegram.ui.Components.RLottieImageView;
 import org.telegram.ui.Components.RecyclerListView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ResponseActivity extends BaseFragment {
+    public static final int shadowViewType = 1;
+    public static final int customViewType = 0;
+    public static final int backMenuItemId = -1;
     private ListAdapter listAdapter;
     private RecyclerListView recyclerView;
     private EmptyTextProgressView emptyView;
-    private List<TLRPC.RequestResponse> responses = new ArrayList<>();
+    private RLottieImageView response_lottie;
+    private List<TLRPC.RequestInfo> responses = new ArrayList<>();
 
     @Override
     public boolean onFragmentCreate() {
@@ -51,7 +62,7 @@ public class ResponseActivity extends BaseFragment {
         actionBar.setActionBarMenuOnItemClick(new ActionBar.ActionBarMenuOnItemClick() {
             @Override
             public void onItemClick(int id) {
-                if (id == -1) {
+                if (id == backMenuItemId) {
                     finishFragment();
                 }
             }
@@ -75,11 +86,14 @@ public class ResponseActivity extends BaseFragment {
         recyclerView.setAdapter(listAdapter);
         frameLayout.addView(recyclerView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
 
+        response_lottie = new RLottieImageView(context);
+        response_lottie.setAnimation(R.raw.response, 300, 300);
+        frameLayout.addView(response_lottie, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
         return fragmentView;
     }
 
     private void fillResponses() {
-        getMessagesStorage().getRequestResponses(responses);
+        getRequestsList(responses);
     }
 
     @Override
@@ -88,10 +102,16 @@ public class ResponseActivity extends BaseFragment {
         if (listAdapter != null) {
             listAdapter.notifyDataSetChanged();
         }
+        emptyView.setVisibility(View.INVISIBLE);
+        recyclerView.setVisibility(View.INVISIBLE);
+        AndroidUtilities.runOnUIThread(() -> {
+            recyclerView.setVisibility(View.VISIBLE);
+            response_lottie.setVisibility(View.INVISIBLE);
+            emptyView.setVisibility(View.VISIBLE);
+        }, 2000);
     }
 
     private class ListAdapter extends RecyclerListView.SelectionAdapter {
-
         @Override
         public boolean isEnabled(RecyclerView.ViewHolder holder) {
             return false;
@@ -102,12 +122,12 @@ public class ResponseActivity extends BaseFragment {
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View view;
             switch (viewType) {
-                case 0: {
-                    view = new ResponseCell(parent.getContext(), true);
+                case customViewType: {
+                    view = new RequestInfoCell(parent.getContext());
                     view.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
                     break;
                 }
-                case 1:
+                case shadowViewType:
                 default: {
                     view = new ShadowSectionCell(parent.getContext());
                     break;
@@ -119,17 +139,16 @@ public class ResponseActivity extends BaseFragment {
         @Override
         public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
             switch (holder.getItemViewType()) {
-                case 0: {
-                    ResponseCell textResponseCell = (ResponseCell) holder.itemView;
-                    TLRPC.RequestResponse response = responses.get(position);
+                case customViewType: {
+                    RequestInfoCell textRequestInfoCell = (RequestInfoCell) holder.itemView;
+                    TLRPC.RequestInfo requestInfo = responses.get(position);
                     if (position == responses.size() - 1)
-                        textResponseCell.setResponse(response, false);
+                        textRequestInfoCell.setRequestInfo(requestInfo, false);
                     else
-                        textResponseCell.setResponse(response, true);
-
+                        textRequestInfoCell.setRequestInfo(requestInfo, true);
                     break;
                 }
-                case 1: {
+                case shadowViewType: {
                     ShadowSectionCell sectionCell = (ShadowSectionCell) holder.itemView;
                     if (!responses.isEmpty() && position == responses.size()) {
                         sectionCell.setBackgroundDrawable(Theme.getThemedDrawable(getParentActivity(), R.drawable.greydivider, Theme.key_windowBackgroundGrayShadow));
@@ -147,10 +166,29 @@ public class ResponseActivity extends BaseFragment {
         }
     }
 
+    public void getRequestsList(List<TLRPC.RequestInfo> requestsList) {
+        SQLiteDatabase database = MessagesStorage.getInstance(currentAccount).getDatabase();
+        getMessagesStorage().getStorageQueue().postRunnable(() -> {
+            try {
+                SQLiteCursor cursor = database.queryFinalized("SELECT * FROM requestsList");
+                while (cursor.next()) {
+                    NativeByteBuffer requestInfoStream = cursor.byteBufferValue(1);
+                    TLRPC.RequestInfo requestInfo = new TLRPC.RequestInfo();
+                    requestInfo.readParams(requestInfoStream, false);
+                    requestsList.add(requestInfo);
+                }
+                cursor.dispose();
+            } catch (Exception e) {
+                requestsList.clear();
+                FileLog.e(e);
+            }
+        });
+    }
+
     @Override
     public ArrayList<ThemeDescription> getThemeDescriptions() {
         ArrayList<ThemeDescription> themeDescriptions = new ArrayList<>();
-        themeDescriptions.add(new ThemeDescription(recyclerView, ThemeDescription.FLAG_CELLBACKGROUNDCOLOR, new Class[]{ResponseCell.class}, null, null, null, Theme.key_windowBackgroundWhite));
+        themeDescriptions.add(new ThemeDescription(recyclerView, ThemeDescription.FLAG_CELLBACKGROUNDCOLOR, new Class[]{RequestInfoCell.class}, null, null, null, Theme.key_windowBackgroundWhite));
         themeDescriptions.add(new ThemeDescription(fragmentView, ThemeDescription.FLAG_BACKGROUND, null, null, null, null, Theme.key_windowBackgroundGray));
 
         themeDescriptions.add(new ThemeDescription(actionBar, ThemeDescription.FLAG_BACKGROUND, null, null, null, null, Theme.key_actionBarDefault));
@@ -168,8 +206,8 @@ public class ResponseActivity extends BaseFragment {
         themeDescriptions.add(new ThemeDescription(recyclerView, 0, new Class[]{View.class}, Theme.dividerPaint, null, null, Theme.key_divider));
 
         themeDescriptions.add(new ThemeDescription(recyclerView, ThemeDescription.FLAG_BACKGROUNDFILTER, new Class[]{ShadowSectionCell.class}, null, null, null, Theme.key_windowBackgroundGrayShadow));
-        themeDescriptions.add(new ThemeDescription(recyclerView, 0, new Class[]{ResponseCell.class}, new String[]{"classNameTxtView"}, null, null, null, Theme.key_windowBackgroundWhiteBlackText));
-        themeDescriptions.add(new ThemeDescription(recyclerView, 0, new Class[]{ResponseCell.class}, new String[]{"responseTime"}, null, null, null, Theme.key_windowBackgroundWhiteGrayText3));
+        themeDescriptions.add(new ThemeDescription(recyclerView, 0, new Class[]{RequestInfoCell.class}, new String[]{"classNameTxtView"}, null, null, null, Theme.key_windowBackgroundWhiteBlackText));
+        themeDescriptions.add(new ThemeDescription(recyclerView, 0, new Class[]{RequestInfoCell.class}, new String[]{"responseTime"}, null, null, null, Theme.key_windowBackgroundWhiteGrayText3));
         return themeDescriptions;
     }
 }
