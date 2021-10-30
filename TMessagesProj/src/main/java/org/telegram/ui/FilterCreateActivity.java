@@ -554,6 +554,7 @@ public class FilterCreateActivity extends BaseFragment {
     private void processDone() {
         saveFilterToServer(filter, newFilterFlags, newFilterName, newAlwaysShow, newNeverShow, newPinned, creatingNew, false, hasUserChanged, true, true, this, () -> {
             getNotificationCenter().postNotificationName(NotificationCenter.dialogFiltersUpdated);
+            FileLog.d("in FilterCreateActivity filter local id is "+filter.localId+" for filter "+filter.name);
             finishFragment();
         });
     }

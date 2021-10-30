@@ -76,9 +76,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.LinearSmoothScrollerCustom;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
-
-import com.google.android.exoplayer2.util.Log;
-
 import org.telegram.messenger.AccountInstance;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
@@ -178,7 +175,6 @@ import java.io.File;
 import java.util.ArrayList;
 
 public class DialogsActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
-
     private boolean canShowFilterTabsView;
     private boolean filterTabsViewIsVisible;
     private int initialSearchType = -1;
@@ -3912,7 +3908,9 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             scrimPopupWindow.dismiss();
             scrimPopupWindow = null;
         }
+        getMessagesController().loadRemoteFilters(true);
         ArrayList<MessagesController.DialogFilter> filters = getMessagesController().dialogFilters;
+        FileLog.d("in dialog activity size of filter list is : "+filters.size());
         SharedPreferences preferences = MessagesController.getMainSettings(currentAccount);
         if (!filters.isEmpty()) {
             if (force || filterTabsView.getVisibility() != View.VISIBLE) {
@@ -3928,8 +3926,12 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 }
                 filterTabsView.removeTabs();
                 filterTabsView.addTab(Integer.MAX_VALUE, 0, LocaleController.getString("FilterAllChats", R.string.FilterAllChats));
+                ArrayList<Integer>filterId=new ArrayList<>();
                 for (int a = 0, N = filters.size(); a < N; a++) {
-                    filterTabsView.addTab(a, filters.get(a).localId, filters.get(a).name);
+                    if(!filterId.contains(filters.get(a).id)){
+                        filterTabsView.addTab(a, filters.get(a).localId, filters.get(a).name);
+                    }
+                    filterId.add(filters.get(a).id);
                 }
                 id = filterTabsView.getCurrentTabId();
                 boolean updateCurrentTab = false;

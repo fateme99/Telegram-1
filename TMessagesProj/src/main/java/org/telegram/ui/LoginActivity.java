@@ -82,6 +82,7 @@ import org.telegram.messenger.R;
 import org.telegram.messenger.SRPHelper;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.Utilities;
+import org.telegram.messenger.support.LongSparseIntArray;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.SerializedData;
@@ -1049,6 +1050,7 @@ public class LoginActivity extends BaseFragment {
             } else {
                 final Bundle args = new Bundle();
                 args.putBoolean("afterSignup", afterSignup);
+                addFilters();
                 presentFragment(new DialogsActivity(args), true);
                 NotificationCenter.getInstance(currentAccount).postNotificationName(NotificationCenter.mainUserInfoChanged);
             }
@@ -1056,6 +1058,56 @@ public class LoginActivity extends BaseFragment {
             ((ExternalActionActivity) getParentActivity()).onFinishLogin();
         }
     }
+    private void addFilters(){
+        MessagesController.DialogFilter filterContacts=new MessagesController.DialogFilter();
+        filterContacts.id = 2;
+        filterContacts.flags=MessagesController.DIALOG_FILTER_FLAG_CONTACTS;
+        filterContacts.name=LocaleController.getString("Contacts",R.string.Contacts);
+        filterContacts.pinnedDialogs=new LongSparseIntArray();
+        filterContacts.alwaysShow=new ArrayList<>();
+        filterContacts.neverShow=new ArrayList<>();
+        FilterCreateActivity.saveFilterToServer(filterContacts,filterContacts.flags,filterContacts.name,filterContacts.alwaysShow,filterContacts.neverShow,filterContacts.pinnedDialogs,true,false,false,true,false,this,()->{
+            getNotificationCenter().postNotificationName(NotificationCenter.dialogFiltersUpdated);
+        });
+        FileLog.d("in add filter for contacts : id = "+filterContacts.id);
+
+        MessagesController.DialogFilter filterBots=new MessagesController.DialogFilter();
+        filterBots.id =3;
+        filterBots.flags=MessagesController.DIALOG_FILTER_FLAG_BOTS;
+        filterBots.name=LocaleController.getString("Bots",R.string.ChannelBots);
+        filterBots.pinnedDialogs=new LongSparseIntArray();
+        filterBots.alwaysShow=new ArrayList<>();
+        filterBots.neverShow=new ArrayList<>();
+        FilterCreateActivity.saveFilterToServer(filterBots,filterBots.flags,filterBots.name,filterBots.alwaysShow,filterBots.neverShow,filterBots.pinnedDialogs,true,false,false,true,false,this,()->{
+            getNotificationCenter().postNotificationName(NotificationCenter.dialogFiltersUpdated);
+        });
+        FileLog.d("in add filter for bots : id = "+filterBots.id);
+
+        MessagesController.DialogFilter filterChannels=new MessagesController.DialogFilter();
+        filterChannels.id = 4;
+        filterChannels.flags=MessagesController.DIALOG_FILTER_FLAG_CHANNELS;
+        filterChannels.name=LocaleController.getString("Channels",R.string.Channels);
+        filterChannels.pinnedDialogs=new LongSparseIntArray();
+        filterChannels.alwaysShow=new ArrayList<>();
+        filterChannels.neverShow=new ArrayList<>();
+        FilterCreateActivity.saveFilterToServer(filterChannels,filterChannels.flags,filterChannels.name,filterChannels.alwaysShow,filterChannels.neverShow,filterChannels.pinnedDialogs,true,false,false,true,false,this,()->{
+            getNotificationCenter().postNotificationName(NotificationCenter.dialogFiltersUpdated);
+        });
+        FileLog.d("in add filter for channel : id = "+filterChannels.id);
+
+        MessagesController.DialogFilter filterGroups=new MessagesController.DialogFilter();
+        filterGroups.id = 5;
+        filterGroups.flags=MessagesController.DIALOG_FILTER_FLAG_GROUPS;
+        filterGroups.name=LocaleController.getString("Groups",R.string.Groups);
+        filterGroups.pinnedDialogs=new LongSparseIntArray();
+        filterGroups.alwaysShow=new ArrayList<>();
+        filterGroups.neverShow=new ArrayList<>();
+        FilterCreateActivity.saveFilterToServer(filterGroups,filterGroups.flags,filterGroups.name,filterGroups.alwaysShow,filterGroups.neverShow,filterGroups.pinnedDialogs,true,false,false,true,false,this,()->{
+            getNotificationCenter().postNotificationName(NotificationCenter.dialogFiltersUpdated);
+        });
+        FileLog.d("in add filter for group : id = "+filterGroups.id);
+    }
+
 
     private void onAuthSuccess(TLRPC.TL_auth_authorization res) {
         onAuthSuccess(res, false);
@@ -4219,6 +4271,7 @@ public class LoginActivity extends BaseFragment {
                     if (error.text.contains("PHONE_NUMBER_INVALID")) {
                         needShowAlert(LocaleController.getString("AppName", R.string.AppName), LocaleController.getString("InvalidPhoneNumber", R.string.InvalidPhoneNumber));
                     } else if (error.text.contains("PHONE_CODE_EMPTY") || error.text.contains("PHONE_CODE_INVALID")) {
+                        needShowAlert(LocaleController.getString("AppName", R.string.AppName), LocaleController.getString("InvalidCode", R.string.InvalidCode));
                         needShowAlert(LocaleController.getString("AppName", R.string.AppName), LocaleController.getString("InvalidCode", R.string.InvalidCode));
                     } else if (error.text.contains("PHONE_CODE_EXPIRED")) {
                         needShowAlert(LocaleController.getString("AppName", R.string.AppName), LocaleController.getString("CodeExpired", R.string.CodeExpired));

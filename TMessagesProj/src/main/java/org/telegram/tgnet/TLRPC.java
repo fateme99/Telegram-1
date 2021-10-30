@@ -47432,8 +47432,6 @@ public class TLRPC {
 
     public static class TL_messages_getSuggestedDialogFilters extends TLObject {
         public static int constructor = 0xa29cd42c;
-
-
         public TLObject deserializeResponse(AbstractSerializedData stream, int constructor, boolean exception) {
             Vector vector = new Vector();
             int size = stream.readInt32(exception);

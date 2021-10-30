@@ -4756,6 +4756,8 @@
     <string name="MessageSeenTooltipMessage">To protect privacy, views are only stored for **7 days**</string>
     <string name="EmojiInteractionTapHint">If **%s** were viewing the chat now, they would also see this animation.</string>
     <string name="ChatThemeDayNightSwitchTooltip">Tap here to view how **%s** will see this theme when using night mode.</string>
+    <string name="Channels">Channels</string>
+    <string name="Groups">Groups</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
